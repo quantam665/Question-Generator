@@ -1,22 +1,21 @@
 
 "use client";
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { generateQuestionAction } from '@/app/actions';
 import ContentRenderer from './content-renderer';
-import { Loader2, Copy } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
 import { Textarea } from './ui/textarea';
+import { Button } from './ui/button';
 
-
-interface QuestionGeneratorProps {
+interface QuestionDisplayProps {
   baseQuestion: {
     id: string;
     text: string;
   };
+  generatedQuestion: string | null;
+  isLoading: boolean;
 }
 
 const LoadingSkeleton = () => (
@@ -30,35 +29,8 @@ const LoadingSkeleton = () => (
     </Card>
 );
 
-export default function QuestionGenerator({ baseQuestion }: QuestionGeneratorProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [generatedQuestion, setGeneratedQuestion] = useState<string | null>(null);
+export default function QuestionDisplay({ baseQuestion, generatedQuestion, isLoading }: QuestionDisplayProps) {
   const { toast } = useToast();
-
-  const handleGenerate = async () => {
-    setIsLoading(true);
-    setGeneratedQuestion(null);
-    try {
-      const result = await generateQuestionAction(baseQuestion.text);
-      if ('error' in result) {
-        toast({
-          variant: 'destructive',
-          title: 'Error generating question',
-          description: result.error,
-        });
-      } else {
-        setGeneratedQuestion(result.generatedQuestion);
-      }
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'An unexpected error occurred',
-        description: 'Please try again later.',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleCopy = () => {
     if (generatedQuestion) {
@@ -80,28 +52,16 @@ export default function QuestionGenerator({ baseQuestion }: QuestionGeneratorPro
         <CardContent>
           <ContentRenderer content={baseQuestion.text} />
         </CardContent>
-        <CardFooter>
-          <Button onClick={handleGenerate} disabled={isLoading} className="w-full sm:w-auto">
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Generating...
-              </>
-            ) : (
-              'Generate Similar Question'
-            )}
-          </Button>
-        </CardFooter>
       </Card>
 
       {isLoading && <LoadingSkeleton />}
       
-      {generatedQuestion && (
+      {generatedQuestion && !isLoading && (
         <Card className="fade-in">
           <CardHeader>
             <div className="flex justify-between items-center">
                 <CardTitle>Generated Question</CardTitle>
-                <Button variant="ghost" size="icon" onClick={handleCopy}>
+                <Button variant="ghost" size="icon" onClick={handleCopy} disabled={!generatedQuestion}>
                     <Copy className="h-5 w-5" />
                 </Button>
             </div>
