@@ -81,6 +81,9 @@ const generateSimilarQuestionPrompt = ai.definePrompt({
   name: 'generateSimilarQuestionPrompt',
   input: {schema: GenerateSimilarQuestionInputSchema},
   output: {schema: GenerateSimilarQuestionOutputSchema},
+  config: {
+    temperature: 0.8,
+  },
   prompt: `You are a math expert. Generate a new question that is similar to the following question but with different values.
 Preserve any LaTeX formatting in the original question.
 If the original question includes a URL to an image, generate a new image appropriate for the new question, but with different details, using the image generation model if required.
@@ -94,7 +97,7 @@ Unit:
 Topic:
 
 New Question:
-`, 
+`,
 });
 
 const generateSimilarQuestionFlow = ai.defineFlow(
