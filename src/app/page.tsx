@@ -20,13 +20,13 @@ const baseQuestion1 = {
 
 const baseQuestion2 = {
   id: 'q2',
-  text: `The top view of a rectangular package of 6 tightly packed balls is shown. If each ball has a radius of 2 centimeters, which of the following are closest to the dimensions, in centimeters, of the rectangular package?
-![Top view of a rectangular package with 6 tightly packed balls](https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-33.jpg?height=451&width=307&top_left_y=1130&top_left_x=280)
-(A) $2 \\times 3 \\times 6$
-(B) $4 \\times 6 \\times 6$
-(C) $2 \\times 4 \\times 6$
-(D) $4 \\times 8 \\times 12$
-(E) $6 \\times 8 \\times 12$`,
+  text: `What is the value of the expression $2x^2 + 3xy - y^2$ when $x=2$ and $y=-1$?
+
+(A) -5
+(B) 1
+(C) 3
+(D) 9
+(E) 13`,
 };
 
 
