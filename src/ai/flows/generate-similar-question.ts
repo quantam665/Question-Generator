@@ -69,13 +69,29 @@ Quantitative Math 	Data Analysis & Probability	Counting & Arrangement Problems
 Quantitative Math 	Reasoning	Word Problems
 `;
 
+const getRandomNumberTool = ai.defineTool(
+    {
+      name: 'getRandomNumber',
+      description: 'Get a random number.',
+      inputSchema: z.object({}),
+      outputSchema: z.number(),
+    },
+    async () => {
+      return Math.random();
+    }
+);
+
+
 const generateSimilarQuestionPrompt = ai.definePrompt({
   name: 'generateSimilarQuestionPrompt',
-  input: {schema: GenerateSimilarQuestionInputSchema},
+  input: {schema: GenerateSimilarQuestionInputSchema.extend({
+      randomNumber: z.number().optional(),
+  })},
   output: {schema: GenerateSimilarQuestionOutputSchema},
   config: {
     temperature: 1,
   },
+  tools: [getRandomNumberTool],
   prompt: `You are a math expert. Based on the provided question, generate a new, different, and unique math question. Do not repeat questions you have generated before.
 
 The subject, unit, and topic must be chosen from the following curriculum:
@@ -113,7 +129,7 @@ const generateSimilarQuestionFlow = ai.defineFlow(
     outputSchema: GenerateSimilarQuestionOutputSchema,
   },
   async input => {
-    const {output} = await generateSimilarQuestionPrompt(input);
+    const {output} = await generateSimilarQuestionPrompt({...input, randomNumber: Math.random()});
     return output!;
   }
 );
