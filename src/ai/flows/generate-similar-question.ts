@@ -69,7 +69,7 @@ Quantitative Math Numbers and Operations Sequences & Series
 Quantitative Math Numbers and Operations Computation with Whole Numbers
 Quantitative Math Numbers and Operations Operations with Negatives
 Quantitative Math Data Analysis & Probability Interpretation of Tables & Graphs
-Quantitative Math Data Analysis & Probability Trends & Inferences
+Quantitative Math DataAnalysis & Probability Trends & Inferences
 Quantitative Math Data Analysis & Probability Probability (Basic, Compound Events)
 Quantitative Math Data Analysis & Probability Mean, Median, Mode, & Range
 Quantitative Math Data Analysis & Probability Weighted Averages
@@ -82,11 +82,11 @@ const generateSimilarQuestionPrompt = ai.definePrompt({
   input: {schema: GenerateSimilarQuestionInputSchema},
   output: {schema: GenerateSimilarQuestionOutputSchema},
   config: {
-    temperature: 0.8,
+    temperature: 0.9,
   },
   prompt: `You are a math expert. Generate a new question that is similar to the following question but with different values.
 Preserve any LaTeX formatting in the original question.
-If the original question includes a URL to an image, generate a new image appropriate for the new question, but with different details, using the image generation model if required.
+If the original question includes a URL to an image, you must generate a new placeholder image URL using https://placehold.co/ that is appropriate for the new question you generated.
 
 Original Question: {{{questionText}}}
 
