@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -75,7 +76,7 @@ const generateSimilarQuestionPrompt = ai.definePrompt({
   config: {
     temperature: 1,
   },
-  prompt: `You are a math expert. Based on the provided question, generate a new, similar math question.
+  prompt: `You are a math expert. Based on the provided question, generate a new, different, and unique math question. Do not repeat questions you have generated before.
 
 The subject, unit, and topic must be chosen from the following curriculum:
 ${curriculum}
