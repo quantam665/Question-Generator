@@ -73,7 +73,7 @@ const generateSimilarQuestionPrompt = ai.definePrompt({
   input: {schema: GenerateSimilarQuestionInputSchema},
   output: {schema: GenerateSimilarQuestionOutputSchema},
   config: {
-    temperature: 0.9,
+    temperature: 1,
   },
   prompt: `You are a math expert. Based on the provided question, generate a new, similar math question.
 
