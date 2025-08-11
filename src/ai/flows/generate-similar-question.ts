@@ -17,7 +17,20 @@ const GenerateSimilarQuestionInputSchema = z.object({
 export type GenerateSimilarQuestionInput = z.infer<typeof GenerateSimilarQuestionInputSchema>;
 
 const GenerateSimilarQuestionOutputSchema = z.object({
-  question: z.string().describe('The formatted question output.'),
+    title: z.string().describe('Assessment title, can be a meaningful name'),
+    description: z.string().describe('Assessment description'),
+    question: z.string().describe('The question text.'),
+    instruction: z.string().describe('Instruction for the question.'),
+    difficulty: z.enum(['easy', 'moderate', 'hard']).describe('The difficulty of the question.'),
+    order: z.number().describe('The question number.'),
+    options: z.array(z.string()).describe('An array of options for the multiple choice question.'),
+    correctOption: z.string().describe('The correct option from the options array.'),
+    explanation: z.string().describe('An explanation for the correct answer.'),
+    subject: z.string().describe('The subject of the question.'),
+    unit: z.string().describe('The unit of the subject.'),
+    topic: z.string().describe('The topic of the question.'),
+    plusmarks: z.number().describe('Marks for a correct answer.'),
+    newQuestionText: z.string().optional().describe('The full generated question text including any new images.')
 });
 export type GenerateSimilarQuestionOutput = z.infer<typeof GenerateSimilarQuestionOutputSchema>;
 
@@ -62,9 +75,9 @@ Quantitative Math Numbers and Operations Operations with Negatives
 Quantitative Math Data Analysis & Probability Interpretation of Tables & Graphs
 Quantitative Math Data Analysis & Probability Trends & Inferences
 Quantitative Math Data Analysis & Probability Probability (Basic, Compound Events)
-Quantitative Math Data Analysis & Probability Mean, Median, Mode, & Range
-Quantitative Math Data Analysis & Probability Weighted Averages
-Quantitative Math Data Analysis & Probability Counting & Arrangement Problems
+Quantitative Math Data-analysis & Probability Mean, Median, Mode, & Range
+Quantitative Math Data-analysis & Probability Weighted Averages
+Quantitative Math Data-analysis & Probability Counting & Arrangement Problems
 Quantitative Math Reasoning Word Problems
 `;
 
@@ -77,35 +90,16 @@ const generateSimilarQuestionPrompt = ai.definePrompt({
   },
   prompt: `You are a math expert. Based on the provided question, generate a new, similar math question.
 
-The output must be in the following format. Do not include any other text or formatting.
-
-@title Assessment title, can be a meaningful name
-@description assessment description
-
-// Use this block for each question when adding Multiple Choice Questions (MCQ)
-@question Write your question here
-@instruction Write instruction here
-@difficulty easy,moderate,hard
-@Order Question number
-@option write first option here
-@option Write second option here
-@@option Correct Answer
-@option option
-@explanation
-Write your question explanation here
-@subject Write subject of the question here
-@unit Write unit of the subject
-@topic Write topic of the question
-@plusmarks 1
-
 The subject, unit, and topic must be chosen from the following curriculum:
 ${curriculum}
 
 Original Question:
 {{{questionText}}}
 
-Formatted Output:
-`,
+Instructions for image generation (if applicable):
+If the original question contains an image, generate a new placeholder image for the new question by creating a URL like 'https://placehold.co/WIDTHxHEIGHT.png' where WIDTH and HEIGHT are appropriate for the question. Include this new image markdown in the 'newQuestionText' output field. For example: '![Alt text](https://placehold.co/400x300.png)'. If the original question has no image, do not generate one.
+
+Provide the response in a structured format.`,
 });
 
 const generateSimilarQuestionFlow = ai.defineFlow(

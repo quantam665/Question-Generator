@@ -2,20 +2,15 @@ import QuestionGenerator from '@/components/question-generator';
 
 const baseQuestion1 = {
   id: 'q1',
-  text: `Each student at Central Middle School wears a uniform consisting of 1 shirt and 1 pair of pants. The table shows the colors available for each item of clothing. How many different uniforms are possible?
+  text: `The top view of a rectangular package of 6 tightly packed balls is shown. If each ball has a radius of 2 centimeters, which of the following are closest to the dimensions, in centimeters, of the rectangular package?
 
-| Shirt Color | Pants Color |
-| :---: | :---: |
-| Tan | Black |
-| Red | Khaki |
-| White | Navy |
-| Yellow | |
+![Top view of a rectangular package with 6 tightly packed balls](https://placehold.co/300x200.png)
 
-(A) Three
-(B) Four
-(C) Seven
-(D) Ten
-(E) Twelve`,
+(A) $2 \\times 3 \\times 6$
+(B) $4 \\times 6 \\times 6$
+(C) $2 \\times 4 \\times 6$
+(D) $4 \\times 8 \\times 12$
+(E) $6 \\times 8 \\times 12$`,
 };
 
 const baseQuestion2 = {

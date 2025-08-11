@@ -26,19 +26,19 @@ const LoadingSkeleton = () => (
             <Skeleton className="h-4 w-3/4 mt-2" />
         </CardHeader>
         <CardContent className="space-y-4">
-            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-40 w-full" />
         </CardContent>
     </Card>
 );
 
 export default function QuestionGenerator({ baseQuestion }: QuestionGeneratorProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [generatedQuestion, setGeneratedQuestion] = useState<GenerateSimilarQuestionOutput | null>(null);
+  const [generatedQuestionData, setGeneratedQuestionData] = useState<GenerateSimilarQuestionOutput | null>(null);
   const { toast } = useToast();
 
   const handleGenerate = async () => {
     setIsLoading(true);
-    setGeneratedQuestion(null);
+    setGeneratedQuestionData(null);
     try {
       const result = await generateQuestionAction(baseQuestion.text);
       if ('error' in result) {
@@ -48,7 +48,7 @@ export default function QuestionGenerator({ baseQuestion }: QuestionGeneratorPro
           description: result.error,
         });
       } else {
-        setGeneratedQuestion(result);
+        setGeneratedQuestionData(result);
       }
     } catch (error) {
       toast({
@@ -87,9 +87,9 @@ export default function QuestionGenerator({ baseQuestion }: QuestionGeneratorPro
 
       {isLoading && <LoadingSkeleton />}
       
-      {generatedQuestion && (
+      {generatedQuestionData && (
         <div className="fade-in">
-          <QuestionDisplay question={generatedQuestion} />
+          <QuestionDisplay questionData={generatedQuestionData} />
         </div>
       )}
     </div>
