@@ -15,9 +15,12 @@ const parseContent = (content: string) => {
   let inTable = false;
 
   lines.forEach(line => {
-    if (line.trim().startsWith('|')) {
+    // Trim the line to handle potential leading/trailing whitespace
+    const trimmedLine = line.trim();
+
+    if (trimmedLine.startsWith('|')) {
       if (!inTable) inTable = true;
-      const cells = line.split('|').map(s => s.trim());
+      const cells = trimmedLine.split('|').map(s => s.trim());
       // For markdown tables, the first and last elements of the split are empty strings
       currentTable.push(cells.slice(1, -1));
     } else {
@@ -26,10 +29,11 @@ const parseContent = (content: string) => {
         currentTable = [];
         inTable = false;
       }
-      const imageMatch = line.match(/^!\[(.*?)\]\((.*?)\)/);
+      
+      const imageMatch = trimmedLine.match(/^!\[(.*?)\]\((.*?)\)/);
       if (imageMatch) {
         blocks.push({ type: 'image', data: { alt: imageMatch[1], src: imageMatch[2] } });
-      } else if (line.trim() !== '') {
+      } else if (trimmedLine !== '') {
         blocks.push({ type: 'text', data: line });
       }
     }
@@ -41,6 +45,7 @@ const parseContent = (content: string) => {
 
   return blocks;
 };
+
 
 const TextBlock = ({ text }: { text: string }) => {
     const optionMatch = text.match(/^\s*(\([A-Z]\))\s*(.*)/);
