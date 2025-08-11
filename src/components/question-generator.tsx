@@ -23,16 +23,10 @@ const LoadingSkeleton = () => (
     <Card className="mt-6">
         <CardHeader>
             <Skeleton className="h-6 w-1/2" />
-            <div className="flex gap-2 pt-2">
-                <Skeleton className="h-5 w-16 rounded-full" />
-                <Skeleton className="h-5 w-24 rounded-full" />
-                <Skeleton className="h-5 w-20 rounded-full" />
-            </div>
+            <Skeleton className="h-4 w-3/4 mt-2" />
         </CardHeader>
         <CardContent className="space-y-4">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-5/6" />
-            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-32 w-full" />
         </CardContent>
     </Card>
 );

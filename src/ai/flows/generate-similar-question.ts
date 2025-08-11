@@ -12,21 +12,12 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateSimilarQuestionInputSchema = z.object({
-  questionText: z.string().describe('The original math question text, potentially including LaTeX formatting and image URLs.'),
+  questionText: z.string().describe('The original math question text, potentially including LaTeX formatting.'),
 });
 export type GenerateSimilarQuestionInput = z.infer<typeof GenerateSimilarQuestionInputSchema>;
 
-const CurriculumSchema = z.object({
-  subject: z.string(),
-  unit: z.string(),
-  topic: z.string(),
-});
-
 const GenerateSimilarQuestionOutputSchema = z.object({
-  newQuestionText: z.string().describe('The generated similar math question, with updated values and a new image if applicable.'),
-  subject: z.string(),
-  unit: z.string(),
-  topic: z.string(),
+  question: z.string().describe('The formatted question output.'),
 });
 export type GenerateSimilarQuestionOutput = z.infer<typeof GenerateSimilarQuestionOutputSchema>;
 
@@ -69,7 +60,7 @@ Quantitative Math Numbers and Operations Sequences & Series
 Quantitative Math Numbers and Operations Computation with Whole Numbers
 Quantitative Math Numbers and Operations Operations with Negatives
 Quantitative Math Data Analysis & Probability Interpretation of Tables & Graphs
-Quantitative Math DataAnalysis & Probability Trends & Inferences
+Quantitative Math Data Analysis & Probability Trends & Inferences
 Quantitative Math Data Analysis & Probability Probability (Basic, Compound Events)
 Quantitative Math Data Analysis & Probability Mean, Median, Mode, & Range
 Quantitative Math Data Analysis & Probability Weighted Averages
@@ -84,19 +75,36 @@ const generateSimilarQuestionPrompt = ai.definePrompt({
   config: {
     temperature: 0.9,
   },
-  prompt: `You are a math expert. Generate a new question that is similar to the following question but with different values.
-Preserve any LaTeX formatting in the original question.
-If the original question includes a URL to an image, you must generate a new placeholder image URL using https://placehold.co/ that is appropriate for the new question you generated.
+  prompt: `You are a math expert. Based on the provided question, generate a new, similar math question.
 
-Original Question: {{{questionText}}}
+The output must be in the following format. Do not include any other text or formatting.
 
-Choose the subject, unit, and topic for the question from the following curriculum:\n${curriculum}
+@title Assessment title, can be a meaningful name
+@description assessment description
 
-Subject:
-Unit:
-Topic:
+// Use this block for each question when adding Multiple Choice Questions (MCQ)
+@question Write your question here
+@instruction Write instruction here
+@difficulty easy,moderate,hard
+@Order Question number
+@option write first option here
+@option Write second option here
+@@option Correct Answer
+@option option
+@explanation
+Write your question explanation here
+@subject Write subject of the question here
+@unit Write unit of the subject
+@topic Write topic of the question
+@plusmarks 1
 
-New Question:
+The subject, unit, and topic must be chosen from the following curriculum:
+${curriculum}
+
+Original Question:
+{{{questionText}}}
+
+Formatted Output:
 `,
 });
 
